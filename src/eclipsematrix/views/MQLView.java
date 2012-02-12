@@ -1,7 +1,7 @@
 package eclipsematrix.views;
 
-
-import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 import matrix.db.Context;
 import matrix.db.MQLCommand;
@@ -21,9 +21,14 @@ import org.eclipse.ui.part.ViewPart;
 
 import eclipsematrix.EclipseMatrix;
 
+/**
+ * 
+ * @author Hannes Lenke hannes@lenke.at
+ * 
+ */
+
 public class MQLView extends ViewPart {
-	
-	
+
 	private Composite top = null;
 	private Text txtOutput = null;
 	private Label label = null;
@@ -32,14 +37,14 @@ public class MQLView extends ViewPart {
 	private Button cmdEnter = null;
 	private int count = 0;
 	private int current = 1;
-	private ArrayList history = new ArrayList();  //  @jve:decl-index=0:
+	private List<String> history = new LinkedList<String>();
 	private Button cmdClear = null;
 	private Image imgClear;
-	
-   public MQLView() {
+
+	public MQLView() {
 		// TODO Auto-generated constructor stub
 	}
-   
+
 	public void createPartControl(Composite parent) {
 		GridData gridData11 = new GridData();
 		gridData11.horizontalAlignment = GridData.END;
@@ -68,7 +73,8 @@ public class MQLView extends ViewPart {
 		label.setText("Output Pane");
 		label.setLayoutData(gridData2);
 		cmdClear = new Button(top, SWT.FLAT);
-//		imgClear = MxEclipsePlugin.getImageDescriptor("eraser.gif").createImage();
+		// imgClear =
+		// MxEclipsePlugin.getImageDescriptor("eraser.gif").createImage();
 		cmdClear.setImage(imgClear);
 		cmdClear.setToolTipText("Clear");
 		cmdClear.setLayoutData(gridData11);
@@ -78,7 +84,8 @@ public class MQLView extends ViewPart {
 				txtOutput.setText("");
 			}
 		});
-		txtOutput = new Text(top, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL | SWT.READ_ONLY);
+		txtOutput = new Text(top, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL
+				| SWT.READ_ONLY);
 		txtOutput.setEditable(true);
 		txtOutput.setEnabled(true);
 		txtOutput.setLayoutData(gridData);
@@ -111,15 +118,15 @@ public class MQLView extends ViewPart {
 		});
 
 	}
-	
+
 	public void setFocus() {
 		// TODO Auto-generated method stub
 
 	}
 
-	
 	private void enterPressed() {
-		count++; current = count;
+		count++;
+		current = count;
 		String inputText = txtInput.getText();
 		txtOutput.append("MQL " + count + "> " + inputText + "\n");
 		history.add(txtInput.getText());
@@ -129,7 +136,7 @@ public class MQLView extends ViewPart {
 		Context context = EclipseMatrix.getDefault().getContext();
 		System.out.println("context" + context.toString());
 		if (context != null && context.isConnected()) {
-			
+
 			MQLCommand cmd = new MQLCommand();
 			try {
 				cmd.executeCommand(context, inputText);

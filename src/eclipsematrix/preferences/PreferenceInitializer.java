@@ -6,7 +6,9 @@ import org.eclipse.jface.preference.IPreferenceStore;
 import eclipsematrix.EclipseMatrix;
 
 /**
- * Class used to initialize default preference values.
+ * 
+ * @author Hannes Lenke hannes@lenke.at
+ *
  */
 public class PreferenceInitializer extends AbstractPreferenceInitializer {
 

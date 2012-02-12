@@ -11,6 +11,12 @@ import java.util.List;
 
 import eclipsematrix.entities.ConfigFileRecord;
 
+
+/**
+ * 
+ * @author Hannes Lenke hannes@lenke.at
+ *
+ */
 public class StateLoader {
 
 	private static final String SAVE_FILE_NAME = "savefile.sav";

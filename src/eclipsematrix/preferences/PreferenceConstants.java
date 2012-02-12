@@ -1,7 +1,9 @@
 package eclipsematrix.preferences;
 
 /**
- * Constant definitions for plug-in preferences
+ * 
+ * @author Hannes Lenke hannes@lenke.at
+ *
  */
 public class PreferenceConstants {
 
@@ -18,8 +20,6 @@ public class PreferenceConstants {
 	
 	public static final String P_UIPATH = "pathUI";
 
-	public static final String P_LOGFILEPATH = "logiflePath";
-	
 	public static final String P_ACTIVATEMONITOR = "activateMonitorAtStartup";
 
 	public static final String P_CHOICE = "choicePreference";

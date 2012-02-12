@@ -5,11 +5,16 @@ import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 
 import eclipsematrix.entities.RecordProvider;
-import eclipsematrix.jobs.NewMQLInstallJob;
+import eclipsematrix.jobs.MQLInstallJob;
 
+/**
+ * 
+ * @author Hannes Lenke hannes@lenke.at
+ * 
+ */
 public class UICheckin extends AbstractHandler {
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-		NewMQLInstallJob job = new NewMQLInstallJob("JPO Install",
+		MQLInstallJob job = new MQLInstallJob("UI Install",
 				RecordProvider.INSTANCE.getUIRecords());
 		job.setUser(true);
 		job.schedule();

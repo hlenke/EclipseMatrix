@@ -9,7 +9,11 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
 
 import eclipsematrix.EclipseMatrix;
 
-
+/**
+ * 
+ * @author Hannes Lenke hannes@lenke.at
+ *
+ */
 public class EclipseMatrixPreferencePage
 	extends FieldEditorPreferencePage
 	implements IWorkbenchPreferencePage {
@@ -28,8 +32,6 @@ public class EclipseMatrixPreferencePage
 				"&Activate monitoring at Startup.",
 				getFieldEditorParent()));
 
-		addField(new DirectoryFieldEditor(PreferenceConstants.P_LOGFILEPATH, 
-				"&Logifle - Path:", getFieldEditorParent()));
 		addField(new DirectoryFieldEditor(PreferenceConstants.P_JPOPATH, 
 				"&JPO - Directory:", getFieldEditorParent()));
 		addField(new DirectoryFieldEditor(PreferenceConstants.P_UIPATH,

@@ -4,6 +4,11 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.File;
 
+/**
+ * 
+ * @author Hannes Lenke hannes@lenke.at
+ *
+ */
 public class ConfigFileRecord {
 
 	public enum ImportState {

@@ -1,28 +1,20 @@
 package eclipsematrix;
 
-import java.util.ArrayList;
-
 import matrix.db.Context;
 import matrix.util.MatrixException;
 
-import org.eclipse.core.internal.content.Activator;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
-import eclipsematrix.entities.MxFile;
-import eclipsematrix.entities.MxFileList;
 import eclipsematrix.matrix.MatrixOperations;
 import eclipsematrix.preferences.PreferenceConstants;
-import eclipsematrix.utils.FileUtil;
-import eclipsematrix.views.CheckInView;
 
 /**
  * 
- * @author Administrator
+ * @author hlenke
  * 
  *         TODO : 3. Vision zwischenablage liste schon vorhanden:
  *         http://sourceforge.net/forum/forum.php?forum_id=916555 
@@ -63,7 +55,6 @@ public class EclipseMatrix extends AbstractUIPlugin {
 	private String host;
 	private String user;
 	private String password;
-	private ArrayList<MxFile> mxFileList = null;
 
 	/**
 	 * The constructor.
@@ -187,30 +178,7 @@ public class EclipseMatrix extends AbstractUIPlugin {
 		this.ctx = context;
 	}
 
-	public CheckInView getCheckInView() {
-		return (CheckInView) PlatformUI.getWorkbench()
-				.getActiveWorkbenchWindow().getActivePage().findView(
-						"eclipsematrix.views.CheckInView");
-	}
 
-//	public final ArrayList<MxFile> getMxFileList() {
-//		if (this.mxFileList == null) {
-//			try {
-//				this.mxFileList = FileUtil.getFileData();
-//			} catch (Exception e) {
-//				// TODO: handle exception
-//			}
-//		}
-//		return this.mxFileList;
-//	}
-
-	/**
-	 * generate Logfile from List of MxFiles.
-	 */
-	public void updateLogFile(final MxFileList list) {
-		FileUtil.generateTextFile(list);
-	}
-	
     public static Image getImage(String imagePath) {
         ImageDescriptor imageDescriptor = AbstractUIPlugin.imageDescriptorFromPlugin(EclipseMatrix.PLUGIN_ID, imagePath);
         Image image = imageDescriptor.createImage();

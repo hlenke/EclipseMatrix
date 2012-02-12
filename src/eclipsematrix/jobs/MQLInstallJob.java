@@ -1,19 +1,22 @@
 package eclipsematrix.jobs;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.ui.PlatformUI;
 
-import eclipsematrix.entities.MxFile;
-import eclipsematrix.entities.MxFileList;
+import eclipsematrix.entities.ConfigFileRecord;
+import eclipsematrix.entities.ConfigFileRecord.ImportState;
+import eclipsematrix.notifier.Notifier;
 import eclipsematrix.utils.MQLUtil;
-import eclipsematrix.views.CheckInView;
 
 /**
- * Progressmonitor Job for Installs with emxGerLib.
- * @author Administrator
+ * 
+ * @author Hannes Lenke hannes@lenke.at
  *
  */
 public class MQLInstallJob extends Job {
@@ -21,23 +24,20 @@ public class MQLInstallJob extends Job {
 	/**
 	 * holds the FileList.
 	 */
-	private MxFileList mxList;
-	
-	/**
-	 * holds the CheckinView.
-	 */
-	private CheckInView view = (CheckInView) PlatformUI.getWorkbench()
-			.getActiveWorkbenchWindow().getActivePage().findView(
-					"eclipsematrix.views.CheckInView");
+	private List<ConfigFileRecord> mxList ;
 
 	/**
 	 * Constructor.
-	 * @param name Name of the Task.
-	 * @param mxList get The List.
+	 * 
+	 * @param name
+	 *            Name of the Task.
+	 * @param mxList
+	 *            get The List.
 	 */
-	public MQLInstallJob(final String name, final MxFileList mxList) {
+	public MQLInstallJob(final String name,
+			final List<ConfigFileRecord> mxList) {
 		super(name);
-		this.mxList = mxList;
+		this.mxList = new LinkedList<ConfigFileRecord>(mxList);
 	}
 
 	@Override
@@ -49,8 +49,8 @@ public class MQLInstallJob extends Job {
 		// count files
 		int y = 0;
 		for (int i = 0; i < mxList.size(); i++) {
-			MxFile mxFile = mxList.get(i);
-			if (mxFile.getChanged()) {
+			ConfigFileRecord mxFile = mxList.get(i);
+			if (mxFile.isChanged()) {
 				y++;
 			}
 		}
@@ -61,62 +61,34 @@ public class MQLInstallJob extends Job {
 
 			for (int i = 0; i < mxList.size(); i++) {
 				if (monitor.isCanceled()) {
-					syncView();
 					return Status.CANCEL_STATUS;
 				}
 
-				MxFile mxFile = mxList.get(i);
-				String resultStr = new String();
-				if (mxFile.getChanged()) {
+				final ConfigFileRecord mxFile = mxList.get(i);
+				if (mxFile.isChanged()) {
 					try {
-						resultStr = mql.genericImport(mxFile.getAbsolutePath());
-						setLogMsg("Successful added: "
-								+ mxFile.getAbsolutePath() + "\n" + resultStr
-								+ "\n");
-						mxFile.setChanged(Boolean.FALSE);
-						mxFile.setError(Boolean.FALSE);
+						System.out.println("Import " + mxFile.getPath());
+						mql.genericImport(mxFile.getPath());
+						PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
+							public void run() {
+								mxFile.setChanged(Boolean.FALSE);
+								mxFile.setState(ImportState.NORMAL);
+							}
+						});
 						monitor.worked(subTaskAmount);
-					} catch (Exception e) {
+					} catch (final Exception e) {
 						e.printStackTrace();
-						mxFile.setError(Boolean.TRUE);
-						setLogMsg("ERROR " + e.getMessage());
+						PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
+							public void run() {
+								mxFile.setState(ImportState.ERROR);
+								Notifier.logError("Error during Import ", e.getMessage());
+							}
+						});
 					}
 				}
 			}
 		}
 		monitor.done();
-		syncView();
 		return Status.OK_STATUS;
 	}
-
-	/**
-	 * Sends Text to Checkinview LogWindow.
-	 * 
-	 * @param text
-	 *            new Text
-	 */
-	private void setLogMsg(final String text) {
-		final String atext = text;
-		PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
-			public void run() {
-				if (view != null) {
-					view.appendText(atext);
-				}
-			}
-		});
-	}
-
-	/**
-	 * Syncs Tables in Checkinview with {@link MxFileList} changes.
-	 */
-	private void syncView() {
-		PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
-			public void run() {
-				if (view != null) {
-					view.synchroniseTableViews();
-				}
-			}
-		});
-	}
-
 }

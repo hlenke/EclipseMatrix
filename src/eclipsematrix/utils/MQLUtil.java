@@ -4,8 +4,14 @@ import matrix.db.Context;
 import matrix.db.MQLCommand;
 import matrix.util.MatrixException;
 import eclipsematrix.EclipseMatrix;
-import eclipsematrix.entities.MxFile;
+import eclipsematrix.entities.ConfigFileRecord;
 
+
+/**
+ * 
+ * @author Hannes Lenke hannes@lenke.at
+ *
+ */
 public class MQLUtil {
 	private static MQLCommand mqlcommand = new MQLCommand();
 	private Context ctx = null;
@@ -51,15 +57,12 @@ public class MQLUtil {
 		return strResult;
 	}
 
+	public String jpoImport(String file) throws Exception {
+		return mqlCommand("exec prog emxGerLibUpdate.tcl -mode install -jpo '" + file + "'");
+	}
+	
 	public String genericImport(String file) throws Exception {
-		MxFile mxFile = new MxFile(file, true);
-		String cat = mxFile.getCategory().toString().toLowerCase();
-		// test for null cat
-		// return mqlCommand("exec prog emxGerLibUpdateRunScripts.tcl -"+ cat
-		// +" '"+file +"'");
-		return mqlCommand("exec prog emxGerLibUpdate.tcl -mode install -" + cat
-				+ " '" + file + "'");
-		// todo look for cmd etc
-		// return null;
+		String cat = ConfigFileUtil.getCategory(new ConfigFileRecord(file, true).getName()).toString();
+		return mqlCommand("exec prog emxGerLibUpdate.tcl -mode install -" + cat + " '" + file + "'");
 	}
 }

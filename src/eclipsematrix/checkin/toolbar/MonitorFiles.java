@@ -1,7 +1,5 @@
 package eclipsematrix.checkin.toolbar;
 
-import java.util.Random;
-
 import net.contentobjects.jnotify.JNotify;
 import net.contentobjects.jnotify.JNotifyException;
 
@@ -12,11 +10,14 @@ import org.eclipse.core.commands.HandlerEvent;
 import org.eclipse.jface.preference.IPreferenceStore;
 
 import eclipsematrix.EclipseMatrix;
-import eclipsematrix.notifier.NotificationType;
-import eclipsematrix.notifier.NotifierDialog;
 import eclipsematrix.preferences.PreferenceConstants;
 import eclipsematrix.utils.FileListener;
 
+/**
+ * 
+ * @author Hannes Lenke hannes@lenke.at
+ * 
+ */
 public class MonitorFiles extends AbstractHandler {
 	// private FileMonitor monitor = FileMonitor.getInstance();
 	// private JPOFileListener jpoFileListener = new JPOFileListener();

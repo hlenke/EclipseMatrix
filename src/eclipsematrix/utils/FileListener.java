@@ -9,6 +9,11 @@ import org.eclipse.ui.PlatformUI;
 import eclipsematrix.entities.RecordProvider;
 import eclipsematrix.entities.ConfigFileRecord;
 
+/**
+ * 
+ * @author Hannes Lenke hannes@lenke.at
+ *
+ */
 public class FileListener implements JNotifyListener {
 
 	public void fileRenamed(int wd, String rootPath, String oldName,

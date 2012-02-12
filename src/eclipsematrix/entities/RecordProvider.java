@@ -12,16 +12,20 @@ import org.eclipse.core.databinding.observable.list.WritableList;
 import eclipsematrix.utils.ConfigFileUtil;
 import eclipsematrix.utils.StateLoader;
 
-
-public enum RecordProvider implements IListChangeListener, PropertyChangeListener {
+/**
+ * 
+ * @author Hannes Lenke hannes@lenke.at
+ * 
+ */
+public enum RecordProvider implements IListChangeListener,
+		PropertyChangeListener {
 	INSTANCE;
-	
-	
+
 	private StateLoader stateLoader = new StateLoader();
 	private WritableList uiRecords = new WritableList();
 	private WritableList dmRecords = new WritableList();
 	private WritableList jpoRecords = new WritableList();
-	
+
 	private RecordProvider() {
 		try {
 			List<ConfigFileRecord> saved = stateLoader.loadState();
@@ -30,7 +34,7 @@ public enum RecordProvider implements IListChangeListener, PropertyChangeListene
 					addJPORecord(configFileRecord);
 				} else if (ConfigFileUtil.isDMFile(configFileRecord.getName())) {
 					addDMRecord(configFileRecord);
-				} else  {
+				} else {
 					addUIRecord(configFileRecord);
 				}
 			}
@@ -40,30 +44,30 @@ public enum RecordProvider implements IListChangeListener, PropertyChangeListene
 		jpoRecords.addListChangeListener(this);
 		uiRecords.addListChangeListener(this);
 		dmRecords.addListChangeListener(this);
-		
+
 	}
-	
+
 	public WritableList getJPORecords() {
 		return jpoRecords;
 	}
-	
+
 	public void addJPORecord(ConfigFileRecord record) {
 		record.addPropertyChangeListener("name", this);
 		record.addPropertyChangeListener("changed", this);
 		jpoRecords.add(record);
 	}
-	
+
 	public void deleteJPORecord(ConfigFileRecord record) {
 		record.removePropertyChangeListener(this);
 		if (jpoRecords.contains(record)) {
 			jpoRecords.remove(record);
 		}
 	}
-	
+
 	public WritableList getDMRecords() {
 		return dmRecords;
 	}
-	
+
 	public void addDMRecord(ConfigFileRecord record) {
 		record.addPropertyChangeListener("name", this);
 		record.addPropertyChangeListener("changed", this);
@@ -78,24 +82,24 @@ public enum RecordProvider implements IListChangeListener, PropertyChangeListene
 		}
 		dmRecords.add(record);
 	}
-	
+
 	public void deleteDMRecord(ConfigFileRecord record) {
 		record.removePropertyChangeListener(this);
 		if (dmRecords.contains(record)) {
 			dmRecords.remove(record);
 		}
 	}
-	
+
 	public WritableList getUIRecords() {
 		return uiRecords;
 	}
-	
+
 	public void addUIRecord(ConfigFileRecord record) {
 		record.addPropertyChangeListener("name", this);
 		record.addPropertyChangeListener("changed", this);
 		uiRecords.add(record);
 	}
-	
+
 	public void deleteUIRecord(ConfigFileRecord record) {
 		record.removePropertyChangeListener(this);
 		if (uiRecords.contains(record)) {
@@ -113,6 +117,7 @@ public enum RecordProvider implements IListChangeListener, PropertyChangeListene
 		stateLoader.generateTextFile(all);
 	}
 
+	@SuppressWarnings("unchecked")
 	public void propertyChange(PropertyChangeEvent evt) {
 		System.err.println("property changed");
 		List<ConfigFileRecord> all = new LinkedList<ConfigFileRecord>();
@@ -121,5 +126,5 @@ public enum RecordProvider implements IListChangeListener, PropertyChangeListene
 		all.addAll(jpoRecords);
 		stateLoader.generateTextFile(all);
 	}
-	
+
 }

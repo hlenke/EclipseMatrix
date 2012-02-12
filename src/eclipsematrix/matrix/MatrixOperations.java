@@ -10,8 +10,13 @@ import org.eclipse.jface.operation.IRunnableWithProgress;
 
 import eclipsematrix.EclipseMatrix;
 
+/**
+ * 
+ * @author Hannes Lenke hannes@lenke.at
+ * 
+ */
 public class MatrixOperations implements IRunnableWithProgress {
-	
+
 	private String host;
 	private String user;
 	private String password;
@@ -63,15 +68,18 @@ public class MatrixOperations implements IRunnableWithProgress {
 
 	/*
 	 * (non-Javadoc)
-	 *
-	 * @see org.eclipse.jface.operation.IRunnableWithProgress#run(org.eclipse.core.runtime.IProgressMonitor)
+	 * 
+	 * @see
+	 * org.eclipse.jface.operation.IRunnableWithProgress#run(org.eclipse.core
+	 * .runtime.IProgressMonitor)
 	 */
-	public void run(IProgressMonitor monitor)
-			throws InvocationTargetException, InterruptedException {
+	public void run(IProgressMonitor monitor) throws InvocationTargetException,
+			InterruptedException {
 		System.out.println("run");
 		try {
-			monitor.beginTask("Connecting to Matrix Host " + this.host + " as user " + this.user, IProgressMonitor.UNKNOWN);
-			//Context ctx = new Context(this.host);//
+			monitor.beginTask("Connecting to Matrix Host " + this.host
+					+ " as user " + this.user, IProgressMonitor.UNKNOWN);
+			// Context ctx = new Context(this.host);//
 			Context ctx = new Context("test", this.host);
 			System.out.println(ctx.toString());
 			ctx.setUser(this.user);
@@ -83,7 +91,7 @@ public class MatrixOperations implements IRunnableWithProgress {
 					EclipseMatrix.getDefault().setContext(ctx);
 					EclipseMatrix.getDefault().setHost(this.host);
 					EclipseMatrix.getDefault().setUser(this.user);
-					//MxJPOcheckin.triggerOnOff();
+					// MxJPOcheckin.triggerOnOff();
 					break;
 				}
 			}
@@ -94,14 +102,14 @@ public class MatrixOperations implements IRunnableWithProgress {
 	}
 
 	public void login() throws MatrixException {
-		//Context ctx = new Context(this.host); 
+		// Context ctx = new Context(this.host);
 		Context ctx = new Context("test", this.host);
 		ctx.setUser(this.user);
 		ctx.setPassword(this.password);
 		ctx.connect();
 		if (ctx.isConnected()) {
 			EclipseMatrix.getDefault().setContext(ctx);
-		//	MxEclipseUtils.triggerOnOff();
+			// MxEclipseUtils.triggerOnOff();
 		}
 	}
 }

@@ -57,17 +57,10 @@
       </view>
       <view
             category="EclipseMatrix"
-            class="eclipsematrix.views.CheckInView"
+            class="eclipsematrix.views.CheckinView"
             icon="icons/sample.gif"
-            id="eclipsematrix.views.CheckInView"
-            name="Check In View">
-      </view>
-      <view
-            category="EclipseMatrix"
-            class="eclipsematrix.views.View"
-            icon="icons/sample.gif"
-            id="eclipsematrix.views.View"
-            name="TestView"
+            id="eclipsematrix.views.CheckinView"
+            name="Check In View"
             restorable="true">
       </view>
    </extension>
@@ -106,7 +99,7 @@
          point="org.eclipse.ui.menus">
       <menuContribution
             allPopups="false"
-            locationURI="toolbar:eclipsematrix.views.View">
+            locationURI="toolbar:eclipsematrix.views.CheckinView">
          <command
                commandId="eclipsematrix.checkin.toolbar.jpoCheckin"
                label="Add JPO&apos;s"
