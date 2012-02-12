@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: EclipseMatrix Plug-in
-Bundle-SymbolicName: EclipseMatrix; singleton:=true
+Bundle-SymbolicName: EclipseMatrix;singleton:=true
 Bundle-Version: 1.0.0
 Bundle-Activator: eclipsematrix.EclipseMatrix
 Require-Bundle: org.eclipse.ui,
@@ -17,5 +17,6 @@ Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-ClassPath: .,
  libs/examples.jar,
- libs/jnotify-0.93.jar
-Bundle-NativeCode: jnotify.dll;osname=Win32;processor=x86, libjnotify.so;osname=linux;processor=x86
+ libs/jnotify-0.93.jar,
+ libs/images.jar
+Bundle-NativeCode: jnotify.dll;osname=Win32;processor=x86, libjnotify.dylib;osname=linux;processor=x86_64

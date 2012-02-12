@@ -13,8 +13,8 @@ import org.eclipse.jface.preference.IPreferenceStore;
 
 import eclipsematrix.EclipseMatrix;
 import eclipsematrix.entities.MxFile;
-import eclipsematrix.entities.MxFileList;
 import eclipsematrix.entities.MxFile.CategoryEnum;
+import eclipsematrix.entities.MxFileList;
 import eclipsematrix.preferences.PreferenceConstants;
 
 public class FileUtil {

@@ -90,7 +90,6 @@ public class GenericObservableMapCellLabelProvider extends ColumnLabelProvider {
 			}
 			return MessageFormat.format(templateText, elements);
 		}
-		
 		return null;
 	}
 }

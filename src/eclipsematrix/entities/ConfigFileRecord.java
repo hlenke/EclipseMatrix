@@ -2,9 +2,15 @@ package eclipsematrix.entities;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.io.File;
 
 public class ConfigFileRecord {
 
+	public enum ImportState {
+		NORMAL, ERROR
+	}
+	
+	private ImportState state = ImportState.NORMAL;
 	private String name;
 	private String path;
 	private boolean changed;
@@ -16,6 +22,13 @@ public class ConfigFileRecord {
 		super();
 		this.name = name;
 		this.path = path;
+		this.changed = changed;
+	}
+	
+	public ConfigFileRecord(String absolutePath, boolean changed) {
+		super();
+		this.name = getName(absolutePath);
+		this.path = absolutePath;
 		this.changed = changed;
 	}
 
@@ -53,6 +66,14 @@ public class ConfigFileRecord {
 		propertyChangeSupport.firePropertyChange("changed", this.changed, this.changed = changed);
 	}
 
+	public void setState(ImportState state) {
+		this.state = state;
+	}
+	
+	public ImportState getState() {
+		return state;
+	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		//FIXME implement code from effective JAVA
@@ -68,8 +89,9 @@ public class ConfigFileRecord {
 		}
 		return false;
 	}
-
 	
-	
-	
+	private String getName(String name) {
+		String[] parts = name.split(File.separator + File.separator);
+		return parts[parts.length - 1];
+	}
 }

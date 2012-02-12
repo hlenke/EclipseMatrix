@@ -1,7 +1,5 @@
 package eclipsematrix.views;
 
-import java.io.WriteAbortedException;
-
 import org.eclipse.core.databinding.beans.BeanProperties;
 import org.eclipse.core.databinding.observable.list.WritableList;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
@@ -15,6 +13,8 @@ import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Combo;
@@ -26,8 +26,8 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.ui.part.ViewPart;
 
 import at.bestsolution.dataforms.util.viewers.GenericObservableMapCellLabelProvider;
-import eclipsematrix.entities.RecordProvider;
 import eclipsematrix.entities.ConfigFileRecord;
+import eclipsematrix.entities.RecordProvider;
 
 //RIGHTCLICK delete from list
 
@@ -40,15 +40,14 @@ public class View extends ViewPart {
 	private Combo jpoCombo;
 	private Combo dmCombo;
 	private Combo uiCombo;
-	private WritableList input;
-	
-	
+
 	public void createPartControl(Composite parent) {
-//		GridLayout layout = new GridLayout(2, false);
-//		parent.setLayout(layout);
-		
-		parent.setLayoutData(new GridData(GridData.GRAB_HORIZONTAL | GridData.HORIZONTAL_ALIGN_FILL));
-		
+		// GridLayout layout = new GridLayout(2, false);
+		// parent.setLayout(layout);
+
+		parent.setLayoutData(new GridData(GridData.GRAB_HORIZONTAL
+				| GridData.HORIZONTAL_ALIGN_FILL));
+
 		TabFolder folder = new TabFolder(parent, SWT.NONE);
 		{
 			Composite tableComposite = createCompositeWithGrid(folder);
@@ -56,11 +55,12 @@ public class View extends ViewPart {
 			jpoTabItem.setText("JPO");
 			jpoTabItem.setControl(tableComposite);
 			jpoCombo = createNewViewModeCombobox(tableComposite);
-			jpoViewer = createViewer(tableComposite, jpoCombo, RecordProvider.INSTANCE.getJPORecords());
+			jpoViewer = createViewer(tableComposite, jpoCombo,
+					RecordProvider.INSTANCE.getJPORecords());
 			jpoCombo.addSelectionListener(new SelectionAdapter() {
-			    public void widgetSelected(final SelectionEvent e) {
-			    	jpoViewer.refresh();
-			    }
+				public void widgetSelected(final SelectionEvent e) {
+					jpoViewer.refresh();
+				}
 			});
 		}
 		{
@@ -69,11 +69,12 @@ public class View extends ViewPart {
 			jpoTabItem.setText("UI");
 			jpoTabItem.setControl(tableComposite);
 			uiCombo = createNewViewModeCombobox(tableComposite);
-			uiViewer = createViewer(tableComposite, uiCombo, RecordProvider.INSTANCE.getUIRecords());
+			uiViewer = createViewer(tableComposite, uiCombo,
+					RecordProvider.INSTANCE.getUIRecords());
 			uiCombo.addSelectionListener(new SelectionAdapter() {
-			    public void widgetSelected(final SelectionEvent e) {
-			    	uiViewer.refresh();
-			    }
+				public void widgetSelected(final SelectionEvent e) {
+					uiViewer.refresh();
+				}
 			});
 		}
 		{
@@ -82,15 +83,16 @@ public class View extends ViewPart {
 			jpoTabItem.setText("DM");
 			jpoTabItem.setControl(tableComposite);
 			dmCombo = createNewViewModeCombobox(tableComposite);
-			dmViewer = createViewer(tableComposite, dmCombo, RecordProvider.INSTANCE.getDMRecords());
+			dmViewer = createViewer(tableComposite, dmCombo,
+					RecordProvider.INSTANCE.getDMRecords());
 			dmCombo.addSelectionListener(new SelectionAdapter() {
-			    public void widgetSelected(final SelectionEvent e) {
-			    	dmViewer.refresh();
-			    }
+				public void widgetSelected(final SelectionEvent e) {
+					dmViewer.refresh();
+				}
 			});
 		}
 	}
-	
+
 	private Composite createCompositeWithGrid(Composite folder) {
 		Composite composite2 = new Composite(folder, SWT.NONE);
 		GridLayout composite2Layout = new GridLayout();
@@ -98,51 +100,51 @@ public class View extends ViewPart {
 		composite2.setLayout(composite2Layout);
 		return composite2;
 	}
-	
+
 	private Combo createNewViewModeCombobox(Composite composite2) {
 		Combo comboBox = new Combo(composite2, SWT.READ_ONLY);
 		comboBox.setBounds(50, 50, 150, 65);
-		String[] items = new String[] {"all", "modified"};
+		String[] items = new String[] { "all", "modified" };
 		comboBox.setItems(items);
 		comboBox.select(1);
 		return comboBox;
 	}
 
-
-	private TableViewer createViewer(Composite parent,final Combo combo, WritableList input) {
+	private TableViewer createViewer(Composite parent, final Combo combo,
+			WritableList input) {
 		TableViewer viewer = new TableViewer(parent, SWT.MULTI | SWT.H_SCROLL
 				| SWT.V_SCROLL | SWT.FULL_SELECTION | SWT.BORDER);
 
-		
 		ObservableListContentProvider contentProvider = new ObservableListContentProvider();
 		viewer.setContentProvider(contentProvider);
-		
+
 		createColumns(parent, viewer, contentProvider);
 		final Table table = viewer.getTable();
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
-		
-		//FIXME remove
-//		viewer.setContentProvider(new ArrayContentProvider());
+
+		// FIXME remove
+		// viewer.setContentProvider(new ArrayContentProvider());
 		// Get the content for the viewer, setInput will call getElements in the
 		// contentProvider
-		
-		
-//		List<TableConfigFileRecord> records = RecordProvider.INSTANCE.getRecords();
-//		input = new WritableList(records, TableConfigFileRecord.class);
-		
+
+		// List<TableConfigFileRecord> records =
+		// RecordProvider.INSTANCE.getRecords();
+		// input = new WritableList(records, TableConfigFileRecord.class);
+
 		// Set the writeableList as input for the viewer
 		viewer.setInput(input);
 		viewer.addFilter(new ViewerFilter() {
 			@Override
-			public boolean select(Viewer viewer, Object parentElement, Object element) {
-				if (combo.getText().equals("all")){
+			public boolean select(Viewer viewer, Object parentElement,
+					Object element) {
+				if (combo.getText().equals("all")) {
 					return true;
 				}
 				return ((ConfigFileRecord) element).isChanged();
 			}
 		});
-		
+
 		// Make the selection available to other views
 		getSite().setSelectionProvider(viewer);
 		// Set the sorter for the table
@@ -158,31 +160,54 @@ public class View extends ViewPart {
 		return viewer;
 	}
 
-
 	// This will create the columns for the table
-	private void createColumns(final Composite parent, final TableViewer viewer, final ObservableListContentProvider contentProvider) {
-		String[] titles = { "name", "path", "changed"};
+	private void createColumns(final Composite parent,
+			final TableViewer viewer,
+			final ObservableListContentProvider contentProvider) {
+		String[] titles = { "name", "path", "changed" };
 		int[] bounds = { 100, 100, 100 };
 
 		IObservableSet knownElements = contentProvider.getKnownElements();
-		final IObservableMap names = BeanProperties.value(ConfigFileRecord.class,
-				"name").observeDetail(knownElements);
-		final IObservableMap paths = BeanProperties.value(ConfigFileRecord.class,
-				"path").observeDetail(knownElements);
-		final IObservableMap changed = BeanProperties.value(ConfigFileRecord.class,
-		"changed").observeDetail(knownElements);
+		final IObservableMap names = BeanProperties.value(
+				ConfigFileRecord.class, "name").observeDetail(knownElements);
+		final IObservableMap paths = BeanProperties.value(
+				ConfigFileRecord.class, "path").observeDetail(knownElements);
+		final IObservableMap changed = BeanProperties.value(
+				ConfigFileRecord.class, "changed").observeDetail(knownElements);
 
 		IObservableMap[] labelMaps = { names, paths, changed };
 
 		// First column is for the first name
-		TableViewerColumn col = createTableViewerColumn(titles[0], bounds[0], 0, viewer);
-		col.setLabelProvider(new GenericObservableMapCellLabelProvider(labelMaps, "{0}"));
+		TableViewerColumn col = createTableViewerColumn(titles[0], bounds[0],
+				0, viewer);
+		col.setLabelProvider(new ColumnLabelProvider() {
+			Image image;
+			@Override
+			public String getText(Object element) {
+				ConfigFileRecord p = (ConfigFileRecord) element;
+				return p.getName();
+			}
 
-		// Second column is for the last name
+			@Override
+			public Image getImage(Object element) {
+				ConfigFileRecord p = (ConfigFileRecord) element;
+				if (p.getState() == ConfigFileRecord.ImportState.NORMAL) {
+					return null;
+				}
+				if (image == null) {
+					image = eclipsematrix.EclipseMatrix.getImage("icons/error.gif");
+				}
+				return image;
+			}
+
+		});
+
+		// Second column is for the last path
 		col = createTableViewerColumn(titles[1], bounds[1], 1, viewer);
-		col.setLabelProvider(new GenericObservableMapCellLabelProvider(labelMaps, "{1}"));
+		col.setLabelProvider(new GenericObservableMapCellLabelProvider(
+				labelMaps, "{1}"));
 
-		// Now the gender
+		// Now the changed
 		col = createTableViewerColumn(titles[2], bounds[2], 2, viewer);
 		col.setLabelProvider(new ColumnLabelProvider() {
 			@Override
@@ -193,7 +218,8 @@ public class View extends ViewPart {
 		});
 	}
 
-	private TableViewerColumn createTableViewerColumn(String title, int bound, final int colNumber, TableViewer viewer) {
+	private TableViewerColumn createTableViewerColumn(String title, int bound,
+			final int colNumber, TableViewer viewer) {
 		final TableViewerColumn viewerColumn = new TableViewerColumn(viewer,
 				SWT.NONE);
 		final TableColumn column = viewerColumn.getColumn();
@@ -204,8 +230,7 @@ public class View extends ViewPart {
 		return viewerColumn;
 	}
 
-	
-/** * Passing the focus request to the viewer's control. */
+	/** * Passing the focus request to the viewer's control. */
 
 	public void setFocus() {
 		jpoViewer.getControl().setFocus();

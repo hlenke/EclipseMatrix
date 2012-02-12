@@ -6,16 +6,16 @@ import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.handlers.HandlerUtil;
 
-import eclipsematrix.jobs.MQLInstallJob;
+import eclipsematrix.entities.RecordProvider;
+import eclipsematrix.jobs.NewMQLInstallJob;
 
 public class JpoCheckin extends AbstractHandler {
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-//    	MQLInstallJob job = new MQLInstallJob("JPO Install", jpoList);
-//    	job.setUser(true);
-//    	job.schedule();
-			MessageDialog.openInformation(HandlerUtil.getActiveWorkbenchWindow(
-					event).getShell(), "Info", "Info for you");
-			return null;
+		NewMQLInstallJob job = new NewMQLInstallJob("JPO Install",
+				RecordProvider.INSTANCE.getJPORecords());
+		job.setUser(true);
+		job.schedule();
+		return null;
 	}
 
 }

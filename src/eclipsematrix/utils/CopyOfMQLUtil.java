@@ -3,18 +3,18 @@ package eclipsematrix.utils;
 import matrix.db.Context;
 import matrix.db.MQLCommand;
 import matrix.util.MatrixException;
-import eclipsematrix.EclipseMatrix;
 import eclipsematrix.entities.MxFile;
 
-public class MQLUtil {
+public class CopyOfMQLUtil {
 	private static MQLCommand mqlcommand = new MQLCommand();
 	private Context ctx = null;
 
-	public MQLUtil() {
+	public CopyOfMQLUtil() {
 		try {
-			this.ctx = EclipseMatrix.getDefault().getContext();
-			MQLCommand cmd = new MQLCommand();
-			cmd.executeCommand(ctx, "verbose on");
+			System.err.println("This is only a mock use correct util!");
+//			this.ctx = EclipseMatrix.getDefault().getContext();
+//			MQLCommand cmd = new MQLCommand();
+//			cmd.executeCommand(ctx, "verbose on");
 		} catch (Exception e) {
 			e.printStackTrace();
 			// TODO: handle exception

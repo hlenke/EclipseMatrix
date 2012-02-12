@@ -5,8 +5,10 @@ import java.util.ArrayList;
 import matrix.db.Context;
 import matrix.util.MatrixException;
 
+import org.eclipse.core.internal.content.Activator;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
@@ -28,26 +30,26 @@ import eclipsematrix.views.CheckInView;
  *         
  *         5. bei process start button disablen danach wieder
  *         enablen 
- *         Number Generator Object Creation Setups berücksichtigen 
+ *         Number Generator Object Creation Setups berï¿½cksichtigen 
  *         Menu vor Menu Actions importieren geht nicht --> Idee ? 
  *         - matrixexception rausnehmen - versuchen
- *         das logging zu verbessern --> näher an die mql ausgaben ran
- *         (workaround bei import über textfeld dateinamen mit anzeigen) DONE -
+ *         das logging zu verbessern --> nï¿½her an die mql ausgaben ran
+ *         (workaround bei import ï¿½ber textfeld dateinamen mit anzeigen) DONE -
  *         export - unsufficent Memory - Repository wechseln altes Repo angeben
- *         neues Repo angeben JPOs und Commands löschen --> neue einspielen! -
+ *         neues Repo angeben JPOs und Commands lï¿½schen --> neue einspielen! -
  *         Plugin: Mass Checkin mit Checkbox Popup Dialog
  * 
- *         DONE : - Log immer new line DONE - Löschen des inputfields nach
+ *         DONE : - Log immer new line DONE - Lï¿½schen des inputfields nach
  *         checkin DONE - hoch runter --> alte befehle zeigen oder die letzten 5
  *         in einem Context Menu DONE - cmd ui und jpo files die nur vom
- *         explorer getoucht wurden --> Datumsvergleich von geändert nach dem
- *         "Monitor" DONE - Fortschrittsbalken für App DONE - Rename reagieren
- *         --> old aus liste löschen neues hinzufügen 20.02.09 2. EclipseMatrix
+ *         explorer getoucht wurden --> Datumsvergleich von geï¿½ndert nach dem
+ *         "Monitor" DONE - Fortschrittsbalken fï¿½r App DONE - Rename reagieren
+ *         --> old aus liste lï¿½schen neues hinzufï¿½gen 20.02.09 2. EclipseMatrix
  *         FileList muss sich aus den einzelnen MXLists ergeben und nicht extra
  *         gepflegt werden
  *         4. implement cancel for import process 
  *         5. Filtern der Tabellen (changed, all..) 
- *         support für Attribute verbessern STRING REAL INTEGER etc
+ *         support fï¿½r Attribute verbessern STRING REAL INTEGER etc
  */
 public class EclipseMatrix extends AbstractUIPlugin {
 
@@ -66,8 +68,8 @@ public class EclipseMatrix extends AbstractUIPlugin {
 	/**
 	 * The constructor.
 	 */
-	public EclipseMatrix() {
-	}
+//	public EclipseMatrix() {
+//	}
 
 	/*
 	 * (non-Javadoc)
@@ -208,4 +210,11 @@ public class EclipseMatrix extends AbstractUIPlugin {
 	public void updateLogFile(final MxFileList list) {
 		FileUtil.generateTextFile(list);
 	}
+	
+    public static Image getImage(String imagePath) {
+        ImageDescriptor imageDescriptor = AbstractUIPlugin.imageDescriptorFromPlugin(EclipseMatrix.PLUGIN_ID, imagePath);
+        Image image = imageDescriptor.createImage();
+        return image;
+    }
+
 }
